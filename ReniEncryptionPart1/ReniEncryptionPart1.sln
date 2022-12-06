@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReniEncryptionPart1", "ReniEncryptionPart1.csproj", "{8F565D33-99AB-43AA-A774-CE4D74D24857}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "..\Models\Models.csproj", "{C126B88C-0B39-4B04-BD8F-B53168D89EFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "..\Services\Services.csproj", "{50707400-443A-400D-A63D-B3BB44D90185}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "..\ViewModels\ViewModels.csproj", "{3591A2CA-6C10-4CE8-A380-2025BF4817FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueryCQRS", "..\QueryCQRS\QueryCQRS.csproj", "{A5895935-7C52-496F-A78D-CFC03B551EF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{255D73B8-16D5-4466-8382-D4134F9E99DC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F565D33-99AB-43AA-A774-CE4D74D24857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F565D33-99AB-43AA-A774-CE4D74D24857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F565D33-99AB-43AA-A774-CE4D74D24857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F565D33-99AB-43AA-A774-CE4D74D24857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C126B88C-0B39-4B04-BD8F-B53168D89EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C126B88C-0B39-4B04-BD8F-B53168D89EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C126B88C-0B39-4B04-BD8F-B53168D89EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C126B88C-0B39-4B04-BD8F-B53168D89EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50707400-443A-400D-A63D-B3BB44D90185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50707400-443A-400D-A63D-B3BB44D90185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50707400-443A-400D-A63D-B3BB44D90185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50707400-443A-400D-A63D-B3BB44D90185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3591A2CA-6C10-4CE8-A380-2025BF4817FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3591A2CA-6C10-4CE8-A380-2025BF4817FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3591A2CA-6C10-4CE8-A380-2025BF4817FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3591A2CA-6C10-4CE8-A380-2025BF4817FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5895935-7C52-496F-A78D-CFC03B551EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5895935-7C52-496F-A78D-CFC03B551EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5895935-7C52-496F-A78D-CFC03B551EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5895935-7C52-496F-A78D-CFC03B551EF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9390C77-1B0D-4E32-8BC4-F2E2F27177A4}
+	EndGlobalSection
+EndGlobal

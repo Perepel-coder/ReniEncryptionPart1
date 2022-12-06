@@ -1,0 +1,45 @@
+﻿<Window x:Class="ReniEncryptionPart1.View.Authorization"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReniEncryptionPart1.View"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterScreen"
+        Title="Вход в систему" Height="200" Width="400" ResizeMode="NoResize">
+    <!--#region Resources-->
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment"  Value="Center"/>
+            <Setter Property="HorizontalAlignment"  Value="Left"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="0,1,0,1"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+    <!--#endregion-->
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" >
+            <StackPanel>
+                <TextBlock Text="Логин"/>
+                <TextBlock Text="Пароль"/>
+            </StackPanel>
+            <StackPanel Margin="5,0,0,0" Width="210">
+                <TextBox Margin="0,5,0,5" Height="25" Text="{Binding q}"/>
+                <PasswordBox Margin="0,5,0,5" Height="25" Name="password"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button  Margin="0,1,5,1" Width="128" Content="Регистрация"/>
+            <Button Width="128" Content="Авторизация"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
