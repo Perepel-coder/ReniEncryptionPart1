@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 
 namespace ViewModels.Models
 {
@@ -39,6 +40,19 @@ namespace ViewModels.Models
             {
                 rowTables.Add(new RowThreeMtrx() { Value = el });
             }
+        }
+        public static DataTable CreatDataTableRowTwoMtrx(ObservableCollection<RowTwoMtrx> rowTables, int countColumn)
+        {
+            DataTable table = new() { TableName = "CryptoTable" };
+            for(int i = 0; i < countColumn; i++)
+            {
+                table.Columns.Add($"Столбец {i + 1}");
+            }
+            foreach(var el in rowTables)
+            {
+                table.Rows.Add(el.Value);
+            }
+            return table;
         }
     }
 }

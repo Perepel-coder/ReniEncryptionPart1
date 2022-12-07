@@ -1,11 +1,14 @@
 ﻿using MediatR;
 using QueryCQRS.Queries;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using ViewModels.Models;
 
@@ -81,6 +84,8 @@ namespace ViewModels.ViewModels.UserBlockAlg
                                 Controls.VisibilityTextBlock = Visibility.Collapsed;
                                 Controls.VisibilityImage = Visibility.Collapsed;
                             }
+                            Controls.VisibilityProjectTable = Visibility.Collapsed;
+                            Controls.VisibilityProjectText = Visibility.Collapsed;
                             stream.Close();
                         });
                         try 
@@ -136,9 +141,6 @@ namespace ViewModels.ViewModels.UserBlockAlg
                                     (Alg)alg,
                                     orientation,
                                     Controls.InitVec))).CurrentDataState;
-                                Controls.VisibilityTextBlock = Visibility.Visible;
-                                Controls.VisibilityImage = Visibility.Collapsed;
-                                Controls.VisibilityDataGrid = Visibility.Collapsed;
                                 return;
                             }
                             if (dialogService.fileType == DialogService.FileType.EXCEL)
@@ -173,7 +175,45 @@ namespace ViewModels.ViewModels.UserBlockAlg
                                 Controls.VisibilityDataGrid = Visibility.Visible;
                                 Controls.VisibilityTextBlock = Visibility.Collapsed;
                                 Controls.VisibilityImage = Visibility.Collapsed;
+                                Controls.VisibilityProjectTable = Visibility.Collapsed;
+                                Controls.VisibilityProjectText = Visibility.Collapsed;
                                 return;
+                            }
+                            if (dialogService.fileType == DialogService.FileType.NAN)
+                            {
+                                if(Controls.InputData.GetType() == typeof(string))
+                                {
+                                    Controls.InputData = (await mediatR.Send(new CryptoTransformREQUEST<string, string>(
+                                        (string)Controls.InputData,
+                                        Convert.ToChar(Controls.ComplementarySymbol),
+                                        Controls.StartKeyValue,
+                                        (Mode)mode,
+                                        (Alg)alg,
+                                        orientation,
+                                        Controls.InitVec))).CurrentDataState;
+                                    return;
+                                }
+                                if(Controls.InputData.GetType() == typeof(ObservableCollection<WindowControlsMain.RowTwoMtrx>))
+                                {
+                                    if (dialogService.SaveFileDialog("CryptoTable files|*.ctf") == true)
+                                    {
+                                        var inputData = WindowControlsMain.CreatDataTableRowTwoMtrx(
+                                            (ObservableCollection<WindowControlsMain.RowTwoMtrx>)Controls.InputData, 20);
+                                        var table = (await mediatR.Send(new CryptoTransformREQUEST<DataTable, string>(
+                                            inputData,
+                                            Convert.ToChar(Controls.ComplementarySymbol),
+                                            Controls.StartKeyValue,
+                                            (Mode)mode,
+                                            (Alg)alg,
+                                            orientation,
+                                            Controls.InitVec)));
+                                        FileStream stream = new FileStream(dialogService.FilePath, FileMode.Create, FileAccess.Write);
+                                        await mediatR.Send(new SaveDataInFileREQUEST<DataTable, string>(table.CurrentDataState, stream));
+                                        Controls.StatusBar = $"Файл {dialogService.FileName} успешно сохранен.";
+                                        stream.Close();
+                                    }
+                                    return;
+                                }
                             }
                             throw new Exception("Тип данных для преобразования не определен.");
                         }
@@ -288,6 +328,60 @@ namespace ViewModels.ViewModels.UserBlockAlg
                             MessageBox.Show(ex.Message, "Ошибка при сохранении файла настроек", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
+                });
+            }
+        }
+
+        private RelayCommand? creatProjectTable;
+        private RelayCommand? creatProjectText;
+        public ICommand CreatProjectTable
+        {
+            get
+            {
+                return creatProjectTable ??= new RelayCommand(obj =>
+                {
+                    this.dialogService.SetFileType(DialogService.FileType.NAN);
+                    ObservableCollection<WindowControlsMain.RowTwoMtrx> rows = new();
+                    var colums = (ICollection<System.Windows.Controls.DataGridColumn>)obj;
+                    for(int i = 0; i < 20; i++)
+                    {
+                        rows.Add(new() { Value = new object[20] });
+
+                        var column = new System.Windows.Controls.DataGridTextColumn()
+                        {
+                            IsReadOnly = false,
+                            Header = $"Столбец {i + 1}",
+                            Binding = new Binding()
+                            {
+                                Path = new PropertyPath($"Value[{i}]"),
+                                Mode = BindingMode.TwoWay,
+                                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                            }
+                        };
+                        colums.Add(column);
+                    }
+                    Controls.InputData = rows;
+                    Controls.VisibilityDataGrid = Visibility.Visible;
+                    Controls.VisibilityTextBlock = Visibility.Collapsed;
+                    Controls.VisibilityImage = Visibility.Collapsed;
+                    Controls.VisibilityProjectTable = Visibility.Visible;
+                    Controls.VisibilityProjectText = Visibility.Collapsed;
+                });
+            }
+        }
+        public ICommand CreatProjectText
+        {
+            get
+            {
+                return creatProjectText ??= new RelayCommand(obj =>
+                {
+                    this.dialogService.SetFileType(DialogService.FileType.NAN);
+                    Controls.InputData = string.Empty;
+                    Controls.VisibilityProjectText = Visibility.Visible;
+                    Controls.VisibilityProjectTable = Visibility.Collapsed;
+                    Controls.VisibilityTextBlock = Visibility.Collapsed;
+                    Controls.VisibilityDataGrid = Visibility.Collapsed;
+                    Controls.VisibilityImage = Visibility.Collapsed;
                 });
             }
         }

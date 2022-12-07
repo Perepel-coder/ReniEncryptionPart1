@@ -1,5 +1,6 @@
 ﻿using ReactiveUI;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Windows;
 
 namespace ViewModels.Models
@@ -38,6 +39,8 @@ namespace ViewModels.Models
         private Visibility visibilityDataGrid = Visibility.Collapsed;
         private Visibility visibilityImage = Visibility.Collapsed;
         private Visibility visibilityTextBlock = Visibility.Collapsed;
+        private Visibility visibilityProjectTable = Visibility.Collapsed;
+        private Visibility visibilityProjectText = Visibility.Collapsed;
 
         public Visibility VisibilityDataGrid
         {
@@ -53,6 +56,17 @@ namespace ViewModels.Models
         {
             get => visibilityTextBlock;
             set => this.RaiseAndSetIfChanged(ref visibilityTextBlock, value);
+        }
+        public Visibility VisibilityProjectTable
+        {
+            get => visibilityProjectTable;
+            set => this.RaiseAndSetIfChanged(ref visibilityProjectTable, value);
+        }
+
+        public Visibility VisibilityProjectText
+        {
+            get => visibilityProjectText;
+            set => this.RaiseAndSetIfChanged(ref visibilityProjectText, value);
         }
 
         private string complementarySymbol = string.Empty;

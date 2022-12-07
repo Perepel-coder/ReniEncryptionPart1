@@ -52,8 +52,14 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
                 <MenuItem Header="Открыть файл" Command="{Binding OpenFile}"/>
-                <MenuItem Header="Создать проект"/>
-                <MenuItem Header="Сохранить проект"/>
+                <MenuItem Header="Создать проект">
+                    <MenuItem Header="Тип проекта - таблица" 
+                              Command="{Binding CreatProjectTable}"
+                              CommandParameter="{Binding ElementName=ProjectTable, Path=Columns}"/>
+                    <MenuItem Header="Тип проекта - текстовый файл" 
+                              Command="{Binding CreatProjectText}"/>
+                </MenuItem>
+                    <MenuItem Header="Сохранить проект"/>
                 <MenuItem Header="Открыть настройки" Command="{Binding OpenSettings}"/>
                 <MenuItem Header="Сохранить настройки" Command="{Binding SaveSettings}"/>
             </MenuItem>
@@ -128,13 +134,22 @@
                     </StatusBarItem>
                 </StatusBar>
                 <DockPanel DockPanel.Dock="Bottom">
-                    <DataGrid IsReadOnly="True" DockPanel.Dock="Top"
-                          Visibility="{Binding Controls.VisibilityDataGrid}"
-                          ItemsSource="{Binding Controls.InputData.DefaultView}"/>
+                    <DataGrid x:Name="ProjectTable" DockPanel.Dock="Top" IsReadOnly="False"
+                              AutoGenerateColumns="False"
+                              Visibility="{Binding Controls.VisibilityProjectTable}"
+                              ItemsSource="{Binding Controls.InputData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGrid DockPanel.Dock="Top" IsReadOnly="True"
+                              Visibility="{Binding Controls.VisibilityDataGrid}"
+                              ItemsSource="{Binding Controls.InputData.DefaultView}"/>
                     <Image Visibility="{Binding Controls.VisibilityImage}"/>
                     <ScrollViewer  DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <TextBlock
                             Visibility="{Binding Controls.VisibilityTextBlock}" 
+                            Text="{Binding Controls.InputData}"/>
+                    </ScrollViewer>
+                    <ScrollViewer  DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <TextBox
+                            Visibility="{Binding Controls.VisibilityProjectText}" 
                             Text="{Binding Path=Controls.InputData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </ScrollViewer>
                 </DockPanel>

@@ -6,10 +6,14 @@ namespace ViewModels.ViewModels
 {
     internal class DialogService
     {
-        public enum FileType { TEXT, EXCEL, CTF};
+        public enum FileType { TEXT, EXCEL, CTF, NAN};
         public string FilePath { get; set; } = string.Empty;
         public string FileName{ get; set; } = string.Empty;
-        public FileType fileType { get; private set; }
+        public FileType fileType { get; private set; } = FileType.NAN;
+        public void SetFileType(FileType type)
+        {
+            this.fileType = type;
+        }
         public bool OpenFileDialog(string filter = "Txt files|*.txt|Excel Files|*.xls;*.xlsx;*.xlsm|CryptoTable files|*.ctf")
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
