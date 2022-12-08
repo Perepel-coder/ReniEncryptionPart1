@@ -51,7 +51,11 @@ namespace ViewModels.ViewModels.UserBlockAlg
         private RelayCommand? transformData;
         private RelayCommand? openSettings;
         private RelayCommand? saveSettings;
+        private RelayCommand? creatProjectTable;
+        private RelayCommand? creatProjectText;
+        private RelayCommand? saveProject;
 
+        #region Commands
         public ICommand OpenFile
         {
             get
@@ -331,9 +335,6 @@ namespace ViewModels.ViewModels.UserBlockAlg
                 });
             }
         }
-
-        private RelayCommand? creatProjectTable;
-        private RelayCommand? creatProjectText;
         public ICommand CreatProjectTable
         {
             get
@@ -385,5 +386,71 @@ namespace ViewModels.ViewModels.UserBlockAlg
                 });
             }
         }
+        public ICommand SaveProject
+        {
+            get
+            {
+                return saveProject ??= new RelayCommand(async obj =>
+                {
+                    if (Controls.InputData == null) { return; }
+                    FileStream stream;
+                    try
+                    {
+                        if (dialogService.fileType == DialogService.FileType.TEXT)
+                        {
+                            if (dialogService.SaveFileDialog("Txt files|*.txt") == true)
+                            {
+                                stream = new FileStream(dialogService.FilePath, FileMode.Create, FileAccess.Write);
+                                await mediatR.Send(new SaveDataInFileREQUEST<string, string>((string)Controls.InputData, stream));
+                                Controls.StatusBar = $"Файл {dialogService.FileName} успешно сохранен.";
+                                stream.Close();
+                            }
+                        }
+                        if (dialogService.fileType == DialogService.FileType.EXCEL)
+                        {
+                            if (dialogService.SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm") == true)
+                            {
+                                stream = new FileStream(dialogService.FilePath, FileMode.Create, FileAccess.Write);
+                                await mediatR.Send(new SaveDataInFileREQUEST<DataTable, DataTable>((DataTable)Controls.InputData, stream));
+                                Controls.StatusBar = $"Файл {dialogService.FileName} успешно сохранен.";
+                                stream.Close();
+                            }   
+                        }
+                        if (dialogService.fileType == DialogService.FileType.NAN)
+                        {
+                            if (Controls.InputData.GetType() == typeof(string))
+                            {
+                                if (dialogService.SaveFileDialog("Txt files|*.txt") == true)
+                                {
+                                    stream = new FileStream(dialogService.FilePath, FileMode.Create, FileAccess.Write);
+                                    await mediatR.Send(new SaveDataInFileREQUEST<string, string>((string)Controls.InputData, stream));
+                                    Controls.StatusBar = $"Файл {dialogService.FileName} успешно сохранен.";
+                                    stream.Close();
+                                }  
+                            }
+                            if (Controls.InputData.GetType() == typeof(ObservableCollection<WindowControlsMain.RowTwoMtrx>))
+                            {
+                                var inputData = WindowControlsMain.CreatDataTableRowTwoMtrx(
+                                                (ObservableCollection<WindowControlsMain.RowTwoMtrx>)
+                                                Controls.InputData, 20);
+                                if (dialogService.SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm") == true)
+                                {
+                                    stream = new FileStream(dialogService.FilePath, FileMode.Create, FileAccess.Write);
+                                    await mediatR.Send(new SaveDataInFileREQUEST<DataTable, DataTable>(inputData, stream));
+                                    Controls.StatusBar = $"Файл {dialogService.FileName} успешно сохранен.";
+                                    stream.Close();
+                                }
+                            }
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        Controls.StatusBar = $"Ошибка при сохранении файла {dialogService.FileName}! Файл не был сохранен.";
+                        MessageBox.Show(ex.Message, "Ошибка при сохранении проекта", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                });
+            }
+        }
+        #endregion
     }
 }

@@ -12,7 +12,7 @@ namespace Services
     {
         public FileStream? Stream { get; set; }
 
-        public bool SaveFileCTF(IEnumerable<byte>? data)
+        public void SaveFileCTF(IEnumerable<byte>? data)
         {
             try
             {
@@ -20,12 +20,29 @@ namespace Services
                 if (data == null) { throw new Exception("Массив данных пуст"); }
                 byte[] array = data.Select(el => (byte)(el ^ 0xad)).ToArray();
                 Stream.Write(array, 0, array.Length);
-                return true;
             }
-            catch
+            catch{}
+        }
+        public void SaveFile(IEnumerable<byte>? data)
+        {
+            try
             {
-                return false;
+                if (this.Stream == null) { throw new Exception("Поток данных не существует."); }
+                if (data == null) { throw new Exception("Массив данных пуст"); }
+                byte[] array = data.ToArray();
+                Stream.Write(array, 0, array.Length);
             }
+            catch { }
+        }
+        public void SaveExcelFile(DataTable table)
+        {
+            using var excelEngine = new ExcelEngine();
+            IApplication application = excelEngine.Excel;
+            application.DefaultVersion = ExcelVersion.Excel2013;
+            IWorkbook workbook = application.Workbooks.Create(1);
+            IWorksheet worksheet = workbook.Worksheets[0];
+            worksheet.ImportDataTable(table, true, 1, 1);
+            workbook.SaveAs(this.Stream);
         }
 
         public static IEnumerable<byte> GetToByte(DataTable table)

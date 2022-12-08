@@ -42,7 +42,21 @@ namespace QueryCQRS.Handlers
         }
         public async Task<SaveDataInFileRESPONSE> Handle(SaveDataInFileREQUEST<T, K> request, CancellationToken cancellationToken)
         {
-            if(typeof(T) == typeof(DataTable) && typeof(K) == typeof(string))
+            if(typeof(T) == typeof(string) && typeof(K) == typeof(string) && request.Data != null)
+            {
+                IEnumerable<byte> data = DataTransformations.GetToByte(
+                    (string)Convert.ChangeType(request.Data, typeof(string)));
+                transform.Stream = request.Stream;
+                transform.SaveFile(data);
+                return await Task.Run(() => new SaveDataInFileRESPONSE());
+            }
+            if(typeof(T) == typeof(DataTable) && typeof(K) == typeof(DataTable) && request.Data != null)
+            {
+                transform.Stream = request.Stream;
+                transform.SaveExcelFile((DataTable)Convert.ChangeType(request.Data, typeof(DataTable)));
+                return await Task.Run(() => new SaveDataInFileRESPONSE());
+            }
+            if(typeof(T) == typeof(DataTable) && typeof(K) == typeof(string) && request.Data != null)
             {
                 IEnumerable<byte> data = DataTransformations.GetToByte(
                     (string)Convert.ChangeType(request.Data, typeof(string)));

@@ -46,6 +46,12 @@ namespace QueryCQRS.Queries
             builder.Register(c => new SaveDataInFileHANDLER<DataTable, string>(c.Resolve<DataTransformations>()))
                .As<IRequestHandler<SaveDataInFileREQUEST<DataTable, string>, SaveDataInFileRESPONSE>>();
 
+            builder.Register(c => new SaveDataInFileHANDLER<string, string>(c.Resolve<DataTransformations>()))
+              .As<IRequestHandler<SaveDataInFileREQUEST<string, string>, SaveDataInFileRESPONSE>>();
+
+            builder.Register(c => new SaveDataInFileHANDLER<DataTable, DataTable>(c.Resolve<DataTransformations>()))
+              .As<IRequestHandler<SaveDataInFileREQUEST<DataTable, DataTable>, SaveDataInFileRESPONSE>>();
+
             builder.Register(c => new ReqForCriptoAlgDB_HANDLER(c.Resolve<ReqForCriptoAlgDB>()))
                .As<IRequestHandler<ReqForCriptoAlgDB_REQUEST, ReqForCriptoAlgDB_RESPONSE>>();
 

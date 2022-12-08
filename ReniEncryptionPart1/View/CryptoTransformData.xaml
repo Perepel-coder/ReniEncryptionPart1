@@ -59,7 +59,7 @@
                     <MenuItem Header="Тип проекта - текстовый файл" 
                               Command="{Binding CreatProjectText}"/>
                 </MenuItem>
-                    <MenuItem Header="Сохранить проект"/>
+                    <MenuItem Header="Сохранить проект" Command="{Binding SaveProject}"/>
                 <MenuItem Header="Открыть настройки" Command="{Binding OpenSettings}"/>
                 <MenuItem Header="Сохранить настройки" Command="{Binding SaveSettings}"/>
             </MenuItem>
@@ -126,7 +126,7 @@
                 </StackPanel>
             </GroupBox>-->
         </DockPanel>
-        <GroupBox Header="Имя файла" DockPanel.Dock="Left">
+        <GroupBox Header="Проект" DockPanel.Dock="Left">
             <DockPanel>
                 <StatusBar DockPanel.Dock="Bottom">
                     <StatusBarItem>
